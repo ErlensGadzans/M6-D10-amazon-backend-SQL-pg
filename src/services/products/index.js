@@ -46,4 +46,17 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
+router.get("/withReviews", async (req, res, next) => {
+  try {
+    // find articles joined with authors and categories
+    const query = `SELECT p.name,p.description, p.brand, p.price, p.category, r.comment, r.rate FROM products AS p INNER JOIN reviews AS r ON r.productid=p.id;`;
+
+    const productsWithReviews = await db.query(query);
+    res.send(productsWithReviews.rows);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 module.exports = router;
