@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../db");
+const reviews = require("../../db").reviews;
 
 const Model = require("../../model");
 
@@ -51,6 +52,19 @@ router.get("/withReviews", async (req, res, next) => {
     // find articles joined with authors and categories
     const query = `SELECT p.name,p.description, p.brand, p.price, p.category, r.comment, r.rate FROM products AS p INNER JOIN reviews AS r ON r.productid=p.id;`;
 
+    const productsWithReviews = await db.query(query);
+    res.send(productsWithReviews.rows);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+router.get("/:id/reviews", async (req, res, next) => {
+  try {
+    // find articles joined with authors and categories
+    const singleProduct = await products.findOne(req.params.id);
+    const query = `SELECT p.name,p.description, p.brand, p.price, p.category, r.comment, r.rate FROM products AS p INNER JOIN reviews AS r ON r.productid=p.id;`;
     const productsWithReviews = await db.query(query);
     res.send(productsWithReviews.rows);
   } catch (error) {
