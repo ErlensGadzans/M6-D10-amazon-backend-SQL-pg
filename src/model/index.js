@@ -54,6 +54,21 @@ class Model {
       return response;
     }
   }
+
+  async findByIdAndUpdate(id, value) {
+    if (!id) {
+      throw new Error("There is no product like this.");
+    } else {
+      const entries = Object.entries(value);
+
+      const query = `UPDATE ${this.name} SET ${entries
+        .map(([key, value]) => `${key}='${value}'`)
+        .join(",")} WHERE id=${parseInt(id)};`;
+
+      const response = await this.run(query);
+      return response;
+    }
+  }
 }
 
 module.exports = Model;
