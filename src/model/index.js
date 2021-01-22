@@ -28,6 +28,22 @@ class Model {
       return response;
     }
   }
+
+  async findOne(fields) {
+    if (!fields || Object.values(fields).lenghth === 0) {
+      const query = `SELECT * FROM ${this.name}`;
+      const response = await this.run(query);
+      return response;
+    } else {
+      const entries = Object.entries(fields);
+      const whereClause = `${entries
+        .map(([key, value]) => `${key}='${value}'`)
+        .join(" AND ")}`;
+      const query = `SELECT * FROM ${this.name} WHERE  ${whereClause};`;
+      const response = await this.run(query);
+      return response;
+    }
+  }
 }
 
 module.exports = Model;
