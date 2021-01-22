@@ -44,6 +44,16 @@ class Model {
       return response;
     }
   }
+
+  async findByIdAndDelete(id) {
+    if (!id) {
+      throw new Error("There is no product like this.");
+    } else {
+      const query = `DELETE FROM ${this.name} WHERE id=${parseInt(id)}`;
+      const response = await this.run(query);
+      return response;
+    }
+  }
 }
 
 module.exports = Model;

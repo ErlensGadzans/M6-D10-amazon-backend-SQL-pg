@@ -26,4 +26,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const productToDelete = products.findByIdAndDelete(req.params.id);
+    res.send(productToDelete);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 module.exports = router;
