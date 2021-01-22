@@ -1,12 +1,14 @@
 const express = require("express");
 require("dotenv").config();
-
 const cors = require("cors");
+const productsRouter = require("./services/products");
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
+
+server.use("/products", productsRouter);
 
 server.get("/", (req, res, next) => {
   res.send("Server is running!");
